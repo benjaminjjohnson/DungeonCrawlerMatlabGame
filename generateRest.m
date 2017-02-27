@@ -8,8 +8,12 @@ floorCols=max(size(floor(1,:)));
 
 %% Quick fix: while roomCount<floorRoomLimit
 
+roomsCreated = false;
 while roomCount < floorRoomLimit
-    
+if ~roomsCreated
+    createOne = true;
+end
+roomsCreated = false;
 % Check every tile
 for irow=2:floorRows-1
     for icol=2:floorCols-1
@@ -54,6 +58,7 @@ for irow=2:floorRows-1
                             floor(irow,icol)=2;
                     end
                     roomCount=roomCount+1;   % add one to total rooms
+                    roomsCreated = true;
                 else
                     % Do nothing except make the room a 2
                     % This always must happen even if no further room made
@@ -110,6 +115,7 @@ for irow=2:floorRows-1
                             floor(irow,icol)=2;
                     end
                     roomCount=roomCount+2;   % Always add two rooms
+                    roomsCreated = true;
                     tempiValue=0;
                     tempiValue2=0;
                     
@@ -136,6 +142,7 @@ for irow=2:floorRows-1
                     roomCount=roomCount+1;  % only add one
                     tempiValue=0;
                     tempiValue2=0;
+                    roomsCreated = true;
                 else
                     % NO OPEN SPOTS, no min = 0
                     % Do nothing except:
@@ -215,6 +222,7 @@ for irow=2:floorRows-1
                             floor(irow,icol)=2;
                     end
                     roomCount=roomCount+3;   % add three
+                    roomsCreated = true;
                     tempiValue=0;
                     tempiValue2=0;
                     tempiValue3=0;  % resets...
@@ -256,6 +264,7 @@ for irow=2:floorRows-1
                             floor(irow,icol)=2;
                     end
                     roomCount=roomCount+2;   % Always add two rooms
+                    roomsCreated = true;
                     tempiValue=0;
                     tempiValue2=0;
                     
@@ -280,6 +289,7 @@ for irow=2:floorRows-1
                             floor(irow,icol)=2;
                     end
                     roomCount=roomCount+1;  % only add one
+                    roomsCreated = true;
                     tempiValue=0;
                     tempiValue2=0;
                 else
@@ -295,16 +305,15 @@ for irow=2:floorRows-1
             % End of code for IF tile == 1, anything that follows this
             %     will be carried out if tile == 1
             
-        else
-            % ELSE, if the tile ~= 1, do nothing currently
-            % This can be edited later
-        end 
+        elseif(floor(irow,icol) == 2 && createOne == true)
+            floor(irow,icol) = 1;                  
+        end
         
         % End of code for one cell or irow,icol (any value)
         % Ends of FOR Loops:
     end 
-end 
-
+end
+createOne = false;
 end % FOR CHEATER WHILE LOOP
 
 %  ~~~~~~~~~~~~~~
