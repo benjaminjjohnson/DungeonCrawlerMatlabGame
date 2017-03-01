@@ -2,7 +2,11 @@
 
 % Notes!
 
-% Starting point should probably be at least three away from wall of map
+% Starting point should probably be in middle ninth of map
+% This means if width is positions 2-13 and height is positions 2-10,
+%     the start room should be in the middle third of both of these ranges:
+%     range for width  =  6-9 
+%     range for height =  5-8
 
 %% Naming convention
 
@@ -18,7 +22,5 @@
 % Normal room being generated = 1
 % Exit = 4
 % Treasure = 5
+%     has only one entrance, uses function generateRest_treasureRoom#
 % Shop = 7
-
-
-
