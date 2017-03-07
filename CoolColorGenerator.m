@@ -4,6 +4,7 @@
 
 clear
 clc
+clf % clear figure on each run so that multiple figures aren't created each time
 
 rng('shuffle')
 colorchoice = randi(15);  % Generates random number between 1-15
