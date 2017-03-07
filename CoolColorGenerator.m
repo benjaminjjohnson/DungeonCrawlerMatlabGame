@@ -4,7 +4,15 @@
 
 clear
 clc
-clf % clear figure on each run so that multiple figures aren't created each time
+set(0,'DefaultFigureWindowStyle','docked')
+
+% Want multiple colors displayed or not?
+showMultipleColors=0;
+if showMultipleColors
+    % Allow multiple figures to be made
+else 
+    close all % Close all previously open figures
+end
 
 rng('shuffle')
 colorchoice = randi(15);  % Generates random number between 1-15
@@ -87,6 +95,5 @@ switch colorchoice
     otherwise
 end
     
-
 figure('Color',[color1 color2 color3]);
 
