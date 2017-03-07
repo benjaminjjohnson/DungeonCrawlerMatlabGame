@@ -8,24 +8,42 @@
     % function that takes these inputs(arguments) is generateRest
 
 % Require function files:
-%       generateRest.m
 %       assignStart.m
+%       generateRest.m
+%       generateRest_treasureRoom.m
 %
 % Author: Matt Phelps, EG Project Dungeon Crawler, 2/23/2017
 
 clear
 clc
 
-%% Set desired size of map
+%% PARAMETERS , CHANGE STUFF!
+%% EDITABLE: 
 
-% EDITABLE:
-floorRows=8;
-floorCols=10;
+% Size of map
+floorRows=40;
+floorCols=60;
 
-% Add wall of 6's
-floor=zeros(floorRows+2,floorCols+2);
+% Set floor room Limit (should later vary by floor)
+floorRoomLimit = 100;
+
+% Additional Rooms
+numTreasure=4;
+
+% ADD START ROOM Probabilities (assignStart)  (rand num from 0-100)
+oneALimit=30;    % one (room) Assign Limit
+twoALimit=60;    % two (room) Assign Limit
+threeALimit=65;  % three (room) Assign Limit
+
+% ADD OTHER NORMAL ROOMS Probabilities (generateRest)
+zeroGLimit=2;
+oneGLimit=97;
+twoGLimit=99;
 
 %% Create wall outside of map of 6's
+
+% Make floor
+floor=zeros(floorRows+2,floorCols+2,'int8');
 
 for it=1:floorCols+2
     floor(1,it)=6;
@@ -37,22 +55,10 @@ for it=1:floorRows+2
     floor(it,floorCols+2)=6;
 end
 
-% disp(floor)
-
-% Clear screen
-% clc
-
-%% AssignStart
-
-% Set probality limits for 1,2,3,4 (0-100)
-% EDITABLE:
-oneALimit=80;   % one (room) Assign Limit
-twoALimit=90;   % two (room) Assign Limit
-threeALimit=95; % three (room) Assign Limit
+%% assignStart
  
 % Add start and adjacents
-floor=assignStart(floor,oneALimit,twoALimit,threeALimit);  % function 
-disp(floor)
+floor=assignStart_add6(floor,oneALimit,twoALimit,threeALimit);  % function 
 
 % Count number of rooms
 roomCount=1; % Because starter room counts for a room too
@@ -68,24 +74,20 @@ clear icol;
 
 % END OF ASSIGN START
 
-%% GenerateRest
-
-% Set probability limits for 0,1,2,3 (0-100)
-% EDITABLE:
-zeroGLimit=0;
-oneGLimit=60;
-twoGLimit=80;
-% no 3 G Limit
-
-% Set floor room Limit (should later vary by floor)
-floorRoomLimit = 30;
+%% generateRest
 
 % Generate rest of map
 floor=generateRest(floor,roomCount,floorRoomLimit,zeroGLimit,oneGLimit,twoGLimit);
 
-% Display floor
-disp(floor)
+% END OF GENERATE REST (before additions)
 
+%% generateRest_treasureRoom
+
+floor=generateRest_treasureRoom1(floor,numTreasure,floorRows,floorCols);
+
+%% DISPLAY TO FIGURE
+
+image(floor*7);
 
 %% END OF CODE
 

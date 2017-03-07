@@ -1,4 +1,4 @@
-function floor=assignStart(floor,oneALimit,twoALimit,threeALimit)
+function floor=assignStart_add6(floor,oneALimit,twoALimit,threeALimit)
 
 %% This function creates the first room and however many rooms are adjacent
 
@@ -14,10 +14,19 @@ tempiValue=100*rand();
 floorRows=max(size(floor(:,1)));
 floorCols=max(size(floor(1,:)));
 
-% Assign 'center' point: one away from wall of traversable tiles
-valueR=randi([4,floorRows-3]);   % HOW FAR AWAY FROM SOLID 6 WALL?
-valueC=randi([4,floorCols-3]);   % HOW FAR AWAY FROM SOLID 6 WALL?
-floor(valueR,valueC)=8;          % 8 RESPRESENTS START ~ ~ ~ ~ ~ ~ 
+% Assign 'center' point:
+% Middle third of grid!
+valueR=randi(round([2+floorRows/3,floorRows-1-floorRows/3])); % HOW FAR AWAY FROM SOLID 6 WALL?
+valueC=randi(round([2+floorCols/3,floorCols-1-floorRows/3])); % HOW FAR AWAY FROM SOLID 6 WALL?
+floor(valueR,valueC)=8;           % 8 RESPRESENTS START ~ ~ ~ ~ ~ ~ 
+ 
+% CHOOSE TO ADD 6's or NOT ADD 6's.
+% JUST CHANGE THE FOLLOWING LINES FROM COMMENTS TO LINES OF CODE BY DELETING
+%     THE PERCENTAGE SIGN
+%floor(valueR-1,valueC-1)=6;
+%floor(valueR+1,valueC+1)=6;
+%floor(valueR-1,valueC+1)=6;
+%floor(valueR+1,valueC-1)=6;
 
 %% Determine how many rooms
 
