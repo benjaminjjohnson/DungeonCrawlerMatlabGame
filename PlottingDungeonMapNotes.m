@@ -20,7 +20,20 @@
 % Outer wall = 6 (where there are no rooms, used for floor generation)
 % Normal rooms value = 2
 % Normal room being generated = 1
+% Boss Room = 3
+%     has only one entrance, uses generateRest_bossRoom#
 % Exit = 4
+%     attaches to boss room (generateRest_bossRoom#)
 % Treasure = 5
 %     has only one entrance, uses function generateRest_treasureRoom#
-% Shop = 7
+% Puzzle room = 9 or 7
+% Shop = 7 or 9
+
+
+
+
+
+%% IF YOU HAVE ANY SUGGESTIONS FOR THE NUMBERING OF ROOMS, WRITE THEM BELOW AND EXPLAIN WHY :)
+%
+%
+%
