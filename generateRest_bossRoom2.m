@@ -120,30 +120,3 @@ end
 clear tempiValue
 
 %% End of code
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
