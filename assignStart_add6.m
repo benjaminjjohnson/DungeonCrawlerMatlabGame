@@ -1,4 +1,4 @@
-function floor=assignStart_add6(floor,oneALimit,twoALimit,threeALimit)
+function [floor,valueR,valueC]=assignStart_add6(floor,oneALimit,twoALimit,threeALimit)
 
 %% This function creates the first room and however many rooms are adjacent
 

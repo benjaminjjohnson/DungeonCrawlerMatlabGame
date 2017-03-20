@@ -318,9 +318,6 @@ end % FOR CHEATER WHILE LOOP
 
 %  ~~~~~~~~~~~~~~
 
-
-
-
 % Now, once the number of rooms has exceeded room number, the following
 %    code is executed
 
@@ -339,6 +336,5 @@ end
 % Have not implemented other rooms, especially the all important exit room
 
 % Author: Matt Phelps, 2/23/17
-
 
 

@@ -16,29 +16,29 @@
 
 clear
 clc
-
+rng('shuffle')
 %% PARAMETERS , CHANGE STUFF!
 %% EDITABLE: 
 
 % Size of map
-floorRows=40;
-floorCols=60;
+floorRows=11;
+floorCols=14;
 
 % Set floor room Limit (should later vary by floor)
-floorRoomLimit = 100;
+floorRoomLimit = 15;
 
 % Additional Rooms
-numTreasure=4;
+numTreasure=2;
 
 % ADD START ROOM Probabilities (assignStart)  (rand num from 0-100)
 oneALimit=30;    % one (room) Assign Limit
 twoALimit=60;    % two (room) Assign Limit
-threeALimit=65;  % three (room) Assign Limit
+threeALimit=100;  % three (room) Assign Limit
 
 % ADD OTHER NORMAL ROOMS Probabilities (generateRest)
-zeroGLimit=2;
-oneGLimit=97;
-twoGLimit=99;
+zeroGLimit=0;
+oneGLimit=98;
+twoGLimit=100;
 
 %% Create wall outside of map of 6's
 
@@ -58,7 +58,7 @@ end
 %% assignStart
  
 % Add start and adjacents
-floor=assignStart_add6(floor,oneALimit,twoALimit,threeALimit);  % function 
+[floor,valueR,valueC]=assignStart_add6(floor,oneALimit,twoALimit,threeALimit);  % function 
 
 % Count number of rooms
 roomCount=1; % Because starter room counts for a room too
@@ -81,8 +81,13 @@ floor=generateRest(floor,roomCount,floorRoomLimit,zeroGLimit,oneGLimit,twoGLimit
 
 % END OF GENERATE REST (before additions)
 
+%% generateRest_bossRoom
+
+floor = generateRest_bossRoom2(floor,floorRows,floorCols,valueR,valueC);
+
 %% generateRest_treasureRoom
 
+% add treasure rooms
 floor=generateRest_treasureRoom1(floor,numTreasure,floorRows,floorCols);
 
 %% DISPLAY TO FIGURE
