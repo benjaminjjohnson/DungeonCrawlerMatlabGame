@@ -420,5 +420,4 @@ function Snake
     end
     %End of closegamefcn
 %CodeEnd-------------------------------------------------------------------
-
 end
