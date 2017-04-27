@@ -1,0 +1,206 @@
+classdef roomClass
+    %ROOMCLASS Summary of this class goes here
+    %   Detailed explanation goes here
+    
+    properties
+        Type
+        Doors
+        Position
+        NumberObstacles
+        TileInfo
+        Images
+        roomArray        
+    end
+    
+    methods
+        %contructor method
+        function obj = roomClass(roomData, iRow, iCol )
+            obj.Type = roomData.Type;
+            if obj.Type == 0
+                obj = [];
+            else
+                %% set properties
+                obj.Doors = roomData.Doors;
+                obj.Position = [iRow, iCol];
+                obj.TileInfo.QuadrantsUsed = roomData.TileInfo.QuadrantsUsed;
+                obj.TileInfo.Theme = roomData.TileInfo.Theme;
+                obj.TileInfo.Nodes = roomData.TileInfo.NumberNodes;
+                obj.Size = roomData.Size;
+                
+                
+                %% Used for creating Images Property: Struct of all images
+                {color, obstacle, lava, block} = obj.TileInfo.Theme;
+                switch color
+                    case 1 %grayscale 1
+                        ImageNames = {'PlainGrayscaleTile1.png', ...
+                            'BlocktGrayscaleTile1.png', ...
+                            'PyramidtGrayscaleTile1.png', ...
+                            [], ...
+                            [], [], [], [], [], [], [], [], [], [], [], []};
+                        
+                    case 2 % Grayscale 2
+                        ImageNames = {'PlaintGrayscaleTile2.png', ...
+                            'BlocktGrayscaleTile2.png', ...
+                            'PyramidtGrayscaleTile2.png', ...
+                            [], ...
+                            [], [], [], [], [], [], [], [], [], [], [], []};
+                        
+                    case 3 %Lavendar 1
+                        ImageNames = {'PlaintLavendarTile1.png', ...
+                            'BlocktLavendarTile1.png', ...
+                            'PyramidtLavendarTile1.png', ...
+                            [], ...
+                            [], [], [], [], [], [], [], [], [], [], [], []};
+                        
+                    case 4 %Muted Green 1
+                        ImageNames = {'PlaintMutedGreenTile1.png', ...
+                            'BlocktMutedGreenTile1.png', ...
+                            'PyramidtMutedGreenTile1.png', ...
+                            [], ...
+                            [], [], [], [], [], [], [], [], [], [], [], []};
+                        
+                    case 5 %Muted Green 2
+                        ImageNames = {'PlaintMutedGreenTile2.png', ...
+                            'BlocktMutedGreenTile2.png', ...
+                            'PyramidtMutedGreenTile2.png', ...
+                            [], ...
+                            [], [], [], [], [], [], [], [], [], [], [], []};
+                        
+                    case 6 %Neon Bright Blue
+                        ImageNames = {'PlaintNeonBrightBlueTile1.png', ...
+                            'BlocktNeonBrightBlueTile1.png', ...
+                            'PyramidtNeonBrightBlueTile1', ...
+                            [], ...
+                            [], [], [], [], [], [], [], [], [], [], [], []};
+                        
+                    case 7 %Neon Dark Blue
+                        ImageNames = {'PlaintNeonDarkBlueTile1.png', ...
+                            'BlocktNeonDarkBlueTile1.png', ...
+                            'PyramidtNeonDarkBlueTile1.png', ...
+                            [], ...
+                            [], [], [], [], [], [], [], [], [], [], [], []};
+                        
+                    case 8 %Purple 3
+                        ImageNames = {...
+                            'PlaintPurpleTile3.png', ...
+                            'BlocktPurpleTile3.png', ...
+                            'PyramidtPurpleTile3.png', ...
+                            [], ...
+                            [], [], [], [], [], [], [], [], [], [], [], []};
+                        
+                    case 9 %Red 1
+                        ImageNames = {...
+                            'PlaintRedTile1.png', ...
+                            'BlocktRedTile1.png', ...
+                            'PyramidtRedTile1.png', ...
+                            [], ...
+                            [], [], [], [], [], [], [], [], [], [], [], []};
+                        
+                    case 10 %Red 2
+                        ImageNames = {...
+                            'PlaintRedTile2.png', ...
+                            'BlocktRedTile2.png', ...
+                            'PyramidtRedTile2.png', ...
+                            [], ...
+                            [], [], [], [], [], [], [], [], [], [], [], []};
+                        
+                    case 11 %Red 3
+                        ImageNames = {...
+                            'PlaintRedTile3.png', ...
+                            'BlocktRedTile3.png', ...
+                            'PyramidtRedTile3.png', ...
+                            [], ...
+                            [], [], [], [], [], [], [], [], [], [], [], []};
+                        
+                    case 12 %Sepia
+                        ImageNames = {...
+                            'PlaintSepiaTile1.png', ...
+                            'BlocktSepiaTile1.png', ...
+                            'PyramidtSepiaTile1.png', ...
+                            [], ...
+                            [], [], [], [], [], [], [], [], [], [], [], []};
+                        
+                end
+                ImageNames{5} = 'bottom horizontal border_32x32.png';
+                ImageNames{6} = 'bottom horizontal border_DOOR_32x32.png';
+                ImageNames{7} = 'bottom left corner_32x32.png';
+                ImageNames{8} = 'bottom right corner_32x32.png';
+                ImageNames{9} = 'left vertical border_32x32.png';
+                ImageNames{10} = 'left vertical border_DOOR_32x32.png';
+                ImageNames{11} = 'right vertical border_32x32.png';
+                ImageNames{12} = 'right vertical border_DOOR_32x32.png';
+                ImageNames{13} = 'top horizontal border_32x32.png';
+                ImageNames{14} = 'top horizontal border_DOOR_32x32.png';
+                ImageNames{15} = 'top left corner_32x32.png';
+                ImageNames{16} = 'top right corner_32x32.png';
+                
+                if lava
+                    ImageNames{4} = struct('1', 'Lava3_1.png', ...
+                        '2', 'Lava3_2.png', ...
+                        '3', 'Lava3_3.png', ...
+                        '4', 'Lava3_4.png');
+                else
+                    ImageNames{4} = struct('1', 'Water3_1.png', ...
+                        '2', 'Water3_2.png', ...
+                        '3', 'Water3_3.png', ...
+                        '4', 'Water3_4.png');
+                end
+                
+                %tile images are read
+                tileImage = imread(ImageNames{1});
+                
+                %block images are selected by if statement
+                if block
+                    blockImage = imread(ImageNames{2});
+                else
+                    blockImage = imread(ImageNames{3});
+                end
+                
+                %water images
+                waterImage.1 = imread(ImageNames{4}.1);
+                waterImage.2 = imread(ImageNames{4}.2);
+                waterImage.3 = imread(ImageNames{4}.3);
+                waterImage.4 = imread(ImageNames{4}.4);
+                
+                %create structure for walls
+                wallImage.leftWall = imread(ImageNames{9});
+                wallImage.leftDoor = imread(ImageNames{10});
+                
+                wallImage.rightWall = imread(ImageNames{11});
+                wallImage.rightDoor = imread(ImageNames{12});
+                
+                wallImage.topWall = imread(ImageNames{13});
+                wallImage.topDoor = imread(ImageNames{14});
+                
+                wallImage.bottomWall = imread(ImageNames{5});
+                wallImage.bottomDoor = imread(ImageNames{14});
+                
+                wallImage.bottomRight = imread(ImageNames{8});
+                wallImage.bottomLeft = imread(ImageNames{7});
+                wallImage.topRight = imread(ImageNames{16});
+                wallImage.topLeft =imread(ImageNames{15});
+                
+                obj.Images = struct('Tile', tileImage, ...
+                    'Block', blockImage , ...
+                    'Water', waterImage , ...
+                    'Wall', wallImage );
+                
+                %% Create Array for indexing room 
+                tempArray = ones(roomData.Size);
+                
+                %find median of rows
+                rowsMedian = roomData.Size(1);
+                %create two values,
+                
+                %set quadrant 1 range
+                quadrant1 = {[
+            end
+        end
+        
+        
+    end
+end
+
+
+
+
