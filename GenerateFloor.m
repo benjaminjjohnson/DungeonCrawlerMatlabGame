@@ -1,4 +1,4 @@
-function modFloor = GenerateFloor(floor, roomSize)
+function rooms = GenerateFloor(floor, roomSize)
 %% Gets rid of empty rows and columns
 modFloor = floor;
 %create downsized array that gets rid of blank space from floor array
@@ -99,16 +99,8 @@ roomData = generateRoomData(modFloor, roomSize);
 
 %create empty array of roomClass
 
-room(floorSize(1), floorSize(2)) = roomClass(roomData(floorSize(1), ...
-    floorSize(2)), ...
-     floorSize(1), ...
-    floorSize(2));
 
-for iRow = 1:floorSize(1)
-    for iCol = 1:floorSize(2)
-        room(iRow, iCol) = roomClass(roomData(iRow, iCol), iRow, iCol);
-    end
-end
+
 
 end
 
@@ -124,11 +116,11 @@ roomData = repmat( ...
     'Doors', struct('Top', false, 'Bottom', false, 'Left', false, ...
     'Right', false), ...
     'TileInfo', struct( ...
-    'Obstacles', uint16(prod(roomSize)), ...
+    'Obstacles', uint8(1), ...
     'QuadrantsUsed', struct('topRight', false, ...
     'topLeft', false, 'bottomLeft', false, ...
     'bottomRight', false, 'Center', false), ...
-    'Theme', {uint(13), uint(3), false, true}, ...
+    'Theme', struct('color', uint(13), 'obstacle', uint(3), 'lava', false, 'block', true), ...
     'NumberNodes', 1), ...
     'Size', roomSize, ...
     'MapPosition', [1, 1]), ...
@@ -137,8 +129,9 @@ roomData = repmat( ...
 %go through entire map
 for iRow=1:floorSize(1)
     for iCol=1:floorSize(2)
+        rng('shuffle');
         %% set type of room
-        roomData(iRow, iCol).Type = unint8(modFloor(iRow, iCol));
+        roomData(iRow, iCol).Type = uint8(modFloor(iRow, iCol));
         %will generate rest of room data only if room is being used (room
         %type value of 0 indicates that room space is not being used)
         if roomData(iRow, iCol).Type ~= 0
@@ -159,14 +152,16 @@ for iRow=1:floorSize(1)
         %Set bottom
         if iRow == roomSize(1) %if is checking bottom row, cannot go down
             roomData(iRow, iCol).Doors.Bottom = false;
-        else %check above for any row other than the last one
+        elseif iRow < roomSize(1) %check above for any row other than the last one
             %if value above is 0 or 6, cannot go down,
+          
             if modFloor((iRow + 1), iCol) == 0 || ...
-                    modFloor((iRow - 1), iCol) == 6
+                    modFloor((iRow + 1), iCol) == 6
                 roomData(iRow, iCol).Doors.Bottom = false;
             else
                 roomData(iRow, iCol).Doors.Bottom = true;
             end
+           
         end
         
         %set left
@@ -207,8 +202,8 @@ for iRow=1:floorSize(1)
         totalTiles = prod(roomSize - 4);
         %will generate number of allowed obstacles from a randi function
         %over a certain range, first must calculate bounds of that range
-        nMax = totalTiles*((7-totalDoors)/8);
-        nMin = totalTiles*((6-totalDoors)/10);
+        nMax = round(totalTiles*((7-totalDoors)/8));
+        nMin = round(totalTiles*((6-totalDoors)/10));
         
         %generate the max number of obstacles that can be used in room
         roomData(iRow, iCol).TileInfo.Obstacles = ...
@@ -219,7 +214,8 @@ for iRow=1:floorSize(1)
         %can be used
         nQuadrantsPicked = 0;
         while nQuadrantsPicked < 3
-           switch quandrant
+            quadrant = randi(5);
+           switch quadrant
                 case 1
                     %first check if the first quadrant has already been
                     %picked before, if it has do not increment the counter,
@@ -260,12 +256,13 @@ for iRow=1:floorSize(1)
         %theme is represented by four values
         %first value determines what color pallete will be used from the 13
         %possibilities
+        
         color = randi(13, 'uint8');
         
         %second value determines whether only blocks will be used, only
         %water will be used, or both will be used when spawning obstacles,
         %each of these possibilities corresponds to 1, 2, and 3 respectively
-        obstacle = randi(3 'uint8');
+        obstacle = randi(3, 'uint8');
         
         %third value determines if water will be used instead of lava, it is
         %a logical variable
