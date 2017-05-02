@@ -102,6 +102,10 @@ else
                 knight=knight.(variables{1});
                 knight.score=knight.score+enemy.value;
                 knight.health=handles.pHealthSlider.Value+5;
+                if knight.health>knight.hmax
+                    knight.health=knight.hmax;
+                else
+                end
                 save('knightStats','knight');
                 if knight.score>=levelThreshold
                     open(LevelUp);
@@ -113,7 +117,12 @@ else
                 variables=fields(sorcerer);
                 sorcerer=sorcerer.(variables{1});
                 sorcerer.score=sorcerer.score+enemy.value;
-                sorcerer.health=handles.pHealthSlider.Value+5;                
+                sorcerer.health=handles.pHealthSlider.Value+5;
+                sorcerer.health=handles.pHealthSlider.Value+5;
+                if sorcerer.health>sorcerer.hmax
+                    sorcerer.health=sorcerer.hmax;
+                else
+                end
                 save('sorcererStats','sorcerer');
                 if sorcerer.score>=levelThreshold
                     open(LevelUp);
@@ -126,6 +135,10 @@ else
                 thief=thief.(variables{1});
                 thief.score=thief.score+enemy.value;
                 thief.health=handles.pHealthSlider.Value+5;
+                if thief.health>thief.hmax
+                    thief.health=thief.hmax;
+                else
+                end
                 save('thiefStats','thief');
                 if thief.score>=levelThreshold
                     open(LevelUp);
