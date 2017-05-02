@@ -94,7 +94,7 @@ else
         handles.eHealthBox.String = 0;
         handles.announceTBox.String=['You struck down the ',enemy.name,'.'];
         %Provides test to level up the player
-        levelThreshold=5*player.level+5;
+        levelThreshold=5*player.level;
         switch pCharacter
             case 1
                 knight=load('knightStats');
@@ -103,7 +103,7 @@ else
                 knight.score=knight.score+enemy.value;
                 knight.health=handles.pHealthSlider.Value+5;
                 save('knightStats','knight');
-                if knight.score==levelThreshold
+                if knight.score>=levelThreshold
                     open(LevelUp);
                     waitfor(LevelUp);
                 else
