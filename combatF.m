@@ -118,7 +118,6 @@ else
                 sorcerer=sorcerer.(variables{1});
                 sorcerer.score=sorcerer.score+enemy.value;
                 sorcerer.health=handles.pHealthSlider.Value+5;
-                sorcerer.health=handles.pHealthSlider.Value+5;
                 if sorcerer.health>sorcerer.hmax
                     sorcerer.health=sorcerer.hmax;
                 else
