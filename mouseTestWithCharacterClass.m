@@ -12,7 +12,7 @@ linkYSpeed = linkXSpeed * screenRatio;
 % link1 = character(link1XPos,link1YPos,10,10,100,{'Little character left 1.png', 'Little character left 2.png', 'Little character right 1.png', 'Little character right 2.png'});
 
 % Set up the figure window and maximize it
-figure1 = figure('Name','Room');
+figure1 = figure('Name',(['Room at: ', num2str(roomClass.Position(1)),', ',num2str(roomClass.Position(2))]));
 figure(figure1);
 set(figure1, 'Position', get(0,'Screensize'));
 
@@ -69,10 +69,16 @@ for iXRoom = 1:xLength
                 cDataTemp = roomClass.Images.Wall.bottomDoor;
             case 15
                 cDataTemp = roomClass.Images.Wall.bottomLeft;
+            case 16
+                cDataTemp = roomClass.Images.Treasure;
         end
         % Create an image object using the loaded image data and the
         % current position on the room grid
         displayImage(iXRoom,iYRoom) = image('XData',[(iXRoom-1)/(xLength + 1), iXRoom/(xLength + 1)],'YData',[((yLength+1)-iYRoom)/(yLength+1), ((yLength+2)-iYRoom)/(yLength+1)],'CData',cDataTemp,'Parent',roomAxes);
+        if roomClass.roomArray.ImageIndex(iYRoom,iXRoom) == 3
+            uistack(displayImage(iXRoom,iYRoom),'bottom')
+        end
+            
     end
 end
 
@@ -316,6 +322,6 @@ while ~roomTransition
 %             end
 %         end
     end
-    pause(0.06);
+    pause(0.04);
 end
 close(figure1)

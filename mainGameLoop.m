@@ -1,7 +1,6 @@
 clear all
 clc
 rng('shuffle')
-seed = randi(100,13,20);
 %% PARAMETERS , CHANGE STUFF!
 %% EDITABLE: 
 
@@ -77,33 +76,39 @@ floor = generateRest_bossRoom2(floor,floorRows,floorCols,valueR,valueC);
 floor=generateRest_treasureRoom1(floor,numTreasure,floorRows,floorCols);
 
 
-[floor,roomData] = GenerateFloor(floor,[13,20]);
+[floor,roomData] = GenerateFloor(floor,[13,21]);
 [maxRowFloor,maxColFloor] = size(floor);
 floorDoor = floor == 8;
 [currentPositionY,currentPositionX] = find(floorDoor);
 
-linkXPos = 0.3;
-linkYPos = 0.5;
-link1 = character(0.3,0.5,10,10,100,{'Little character left 1.png', 'Little character left 2.png', 'Little character right 1.png', 'Little character right 2.png'});
+linkXPos = 0.49;
+linkYPos = 0.51;
+link1 = character(linkXPos,linkYPos,10,10,100,{'Little character left 1.png', 'Little character left 2.png', 'Little character right 1.png', 'Little character right 2.png'});
+currentRoom(currentPositionY,currentPositionY) = roomClassEdited(roomData(currentPositionY,currentPositionX),currentPositionY,currentPositionX);
 
 while roomData(currentPositionY,currentPositionX).Type ~= 5
-    currentRoom = roomClassEdited(roomData(currentPositionY,currentPositionX),currentPositionY,currentPositionX,seed(currentPositionY,currentPositionX));
-    
-    currentPositionX
-    currentPositionY
-    link1 = mouseTestWithCharacterClass(0.025,0.05,link1,0,currentRoom);
+    if currentPositionY > size(currentRoom,1) || currentPositionX > size(currentRoom,2)
+        currentRoom(currentPositionY,currentPositionX) = roomClassEdited(roomData(currentPositionY,currentPositionX),currentPositionY,currentPositionX);
+    elseif currentRoom(currentPositionY,currentPositionX).Type == 0
+        currentRoom(currentPositionY,currentPositionX) = roomClassEdited(roomData(currentPositionY,currentPositionX),currentPositionY,currentPositionX);
+    end
+    link1 = mouseTestWithCharacterClass(0.025,0.05,link1,0,currentRoom(currentPositionY,currentPositionX));
     if link1.xPos < 0.2
         currentPositionX = currentPositionX - 1;
-        link1.xPos = 17/20;
+        link1.xPos = 17/21;
+        link1.yPos = 0.5;
     elseif link1.xPos > 0.8
         currentPositionX = currentPositionX + 1;
-        link1.xPos = 1/20;
+        link1.xPos = 1/21;
+        link1.yPos = 0.5;
     elseif link1.yPos < 0.2
         currentPositionY = currentPositionY + 1;
         link1.yPos = 11/13;
+        link1.xPos = 0.46;
     else
         currentPositionY = currentPositionY - 1;
-        link1.yPos = 3/13;
+        link1.yPos = 2/13;
+        link1.xPos = 0.46;
     end
 end
 'Found It'
